@@ -1,9 +1,29 @@
-<script setup></script>
-
 <template>
-  <div></div>
+  <div>
+    <Navbar class="h-16" />
+    <!-- <Home class="content" /> -->
+    <ContentHolder class="content" />
+  </div>
 </template>
 
-<script></script>
+<script>
+import Navbar from "./components/Navbar.vue";
+import Home from "./components/Home.vue";
+import ContentHolder from "./components/ContentHolder.vue";
 
-<style scoped></style>
+export default {
+  components: {
+    Navbar,
+    Home,
+    ContentHolder,
+  },
+};
+</script>
+
+<style>
+.content {
+  height: calc(100vh - 4rem);
+}
+
+/* Du kannst hier globale Stile hinzufügen, wenn benötigt */
+</style>
