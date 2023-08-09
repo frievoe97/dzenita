@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex justify-center bg-white">
-    <form class="w-full max-w-3xl p-6">
-      <h2 class="text-2xl font-semibold mb-4 text-center">Kontaktformular</h2>
+    <form class="w-full max-w-3xl">
+      <h1 class="text-4xl font-semibold mb-8 mt-8 text-center">Kontakt</h1>
       <div class="mb-4">
         <label class="block text-sm font-medium mb-2">Name</label>
         <input

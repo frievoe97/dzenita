@@ -104,10 +104,11 @@ export default {
       currentSlide: 0,
     };
   },
-  mounted() {
+  async mounted() {
     this.pdfWidth =
       document.getElementsByClassName("carousel-right")[0].clientWidth - 70;
     window.addEventListener("resize", this.resize);
+    await this.forceRender();
   },
   methods: {
     prevSlide() {
