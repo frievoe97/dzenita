@@ -99,6 +99,13 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
         },
+        {
+          title: "Harmonisches Stadthaus",
+          description:
+            "Ein modernes Stadthaus, das minimalistisches Design mit nachhaltigen Elementen verbindet. Große Fensterfronten sorgen für eine natürliche Beleuchtung und einen nahtlosen Übergang zwischen Innen- und Außenbereich. Die verwendeten Materialien wurden sorgfältig ausgewählt, um eine ästhetische Einheit mit der umgebenden Natur zu schaffen.",
+          source:
+            "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
+        },
         // Füge weitere Projektobjekte hinzu
       ],
       currentSlide: 0,
