@@ -41,4 +41,7 @@ export default {
 
 <style scoped>
 /* Weitere individuelle Stile können hier hinzugefügt werden */
+textarea {
+  resize: none;
+}
 </style>

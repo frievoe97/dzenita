@@ -25,6 +25,7 @@ export default {
       isMobile: false,
     };
   },
+
   mounted() {
     this.checkWindowSize();
     window.addEventListener("resize", this.checkWindowSize);

@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col h-full items-center">
     <h1 class="text-4xl font-semibold mb-8 mt-8">Dzenitas Portfolio</h1>
+    <!-- <button @click="reloadPdf">Reload</button> -->
     <!-- max-w-2xl -->
 
     <div class="carousel">
@@ -12,9 +13,13 @@
           :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
         >
           <div class="carousel-left">
-            <h2 class="text-2xl font-semibold mb-2">{{ project.title }}</h2>
+            <h2 class="text-2xl font-semibold mb-2">
+              {{ project.title }}
+            </h2>
             <p class="text-gray-600">{{ project.description }}</p>
-            <p class="mt-4"><a :href="project.source">Download Portfolio</a></p>
+            <p class="mt-4">
+              <a :href="project.source">Download Portfolio</a>
+            </p>
           </div>
           <div class="carousel-right relative">
             <svg
@@ -34,10 +39,10 @@
               />
             </svg>
             <vue-pdf-embed
-              v-if="renderComponent"
               ref="pdfRef"
+              :key="componentKey"
               :source="project.source"
-              :page="currentPage"
+              :page="project.currentPage"
               :disableTextLayer="true"
               :width="pdfWidth"
               :height="pdfHeight"
@@ -59,7 +64,7 @@
               </button>
             </div>
             <p class="pdfPageCount" :class="{ invisible: !loaded }">
-              {{ currentPage }} / {{ project.pageCount }}
+              {{ project.currentPage }} / {{ project.pageCount }}
             </p>
           </div>
         </div>
@@ -78,19 +83,9 @@
 <script>
 import VuePdfEmbed from "vue-pdf-embed";
 
-import { nextTick, ref } from "vue";
-const renderComponent = ref(true);
+import { ref } from "vue";
 
-const forceRender = async () => {
-  // Here, we'll remove MyComponent
-  renderComponent.value = false;
-
-  // Then, wait for the change to get flushed to the DOM
-  await nextTick();
-
-  // Add MyComponent back in
-  renderComponent.value = true;
-};
+const pdfRef = ref([]);
 
 export default {
   components: {
@@ -98,10 +93,10 @@ export default {
   },
   data() {
     return {
+      componentKey: 0,
       isLoading: true,
       pageCount: 1,
       loaded: false,
-      renderComponent: true,
       currentPage: 1,
       pdfWidth: 626 - 80,
       pdfHeight: 100,
@@ -113,6 +108,7 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
           pageCount: 1,
+          currentPage: 1,
         },
         {
           title: "Futuristisches Wohnkomplex",
@@ -121,6 +117,7 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2019.pdf",
           pageCount: 1,
+          currentPage: 1,
         },
         {
           title: "Harmonisches Stadthaus",
@@ -129,6 +126,7 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
           pageCount: 1,
+          currentPage: 1,
         },
         {
           title: "Futuristisches Wohnkomplex",
@@ -137,6 +135,7 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
           pageCount: 1,
+          currentPage: 1,
         },
         {
           title: "Harmonisches Stadthaus",
@@ -145,6 +144,7 @@ export default {
           source:
             "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
           pageCount: 1,
+          currentPage: 1,
         },
         // Füge weitere Projektobjekte hinzu
       ],
@@ -162,67 +162,64 @@ export default {
     this.pdfHeight =
       document.getElementsByClassName("carousel-right")[0].clientHeight - 70;
     window.addEventListener("resize", this.resize);
-    await this.forceRender();
   },
   methods: {
     prevSlide() {
-      this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
+      // this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
       this.currentSlide =
         (this.currentSlide - 1 + this.projects.length) % this.projects.length;
+      // this.$refs.pdfRef[this.currentSlide].render();
     },
     nextSlide() {
-      this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
+      // this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
       this.currentSlide = (this.currentSlide + 1) % this.projects.length;
+      // this.$refs.pdfRef[this.currentSlide].render();
     },
     nextPage() {
-      if (this.projects[this.currentSlide].pageCount != this.currentPage) {
-        this.currentPage += 1;
+      if (
+        this.projects[this.currentSlide].pageCount !=
+        this.projects[this.currentSlide].currentPage
+      ) {
+        // this.currentPage += 1;
+        this.projects[this.currentSlide].currentPage += 1;
       } else {
-        this.currentPage = 1;
+        // this.currentPage = 1;
+        this.projects[this.currentSlide].currentPage = 1;
       }
     },
     prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage -= 1;
+      if (this.projects[this.currentSlide].currentPage > 1) {
+        // this.currentPage -= 1;
+        this.projects[this.currentSlide].currentPage -= 1;
       } else {
-        this.currentPage = this.projects[this.currentSlide].pageCount;
+        // this.currentPage = this.projects[this.currentSlide].pageCount;
+        this.projects[this.currentSlide].currentPage =
+          this.projects[this.currentSlide].pageCount;
       }
     },
     async eventTest(event) {
+      console.log(event);
       console.log("Re-Render PDF!");
-      // this.currentPage -= 1;
-      // await this.forceRender();
-      // this.currentPage -= 1;
     },
     loading(event) {
-      //   console.log((100 / event.total) * event.loaded);
       if (event.total == event.loaded) {
-        // this.loaded = true;
         console.log("Loaded");
       }
     },
-    async forceRender() {
-      // Remove MyComponent from the DOM
-      this.renderComponent = false;
-
-      // Then, wait for the change to get flushed to the DOM
-      await this.$nextTick();
-
-      // Add MyComponent back in
-      this.renderComponent = true;
-    },
     resize() {
-      // this.loaded = false;
       this.pdfWidth =
         document.getElementsByClassName("carousel-right")[0].clientWidth - 80;
       this.pdfHeight =
         document.getElementsByClassName("carousel-right")[0].clientHeight - 80;
-      this.forceRender;
     },
     handleDocumentRender(index) {
-      // console.log("handleDocumentRender");
       this.loaded = true;
       this.projects[index].pageCount = this.$refs.pdfRef[index].pageCount;
+    },
+    reloadPdf() {
+      // this.componentKey += 2;
+      // this.$refs.pdfRef[index].render();
+      // console.log(this.$refs.pdfRef[this.currentSlide]);
     },
   },
 };
