@@ -38,8 +38,9 @@
               ref="pdfRef"
               :source="project.source"
               :page="currentPage"
-              :width="pdfWidth"
               :disableTextLayer="true"
+              :width="pdfWidth"
+              :height="pdfHeight"
               @rendering-failed="eventTest"
               @progress="loading"
               @rendered="handleDocumentRender(index)"
@@ -103,6 +104,7 @@ export default {
       renderComponent: true,
       currentPage: 1,
       pdfWidth: 626 - 80,
+      pdfHeight: 100,
       projects: [
         {
           title: "Harmonisches Stadthaus",
@@ -157,6 +159,8 @@ export default {
   async mounted() {
     this.pdfWidth =
       document.getElementsByClassName("carousel-right")[0].clientWidth - 70;
+    this.pdfHeight =
+      document.getElementsByClassName("carousel-right")[0].clientHeight - 70;
     window.addEventListener("resize", this.resize);
     await this.forceRender();
   },
@@ -211,6 +215,8 @@ export default {
       // this.loaded = false;
       this.pdfWidth =
         document.getElementsByClassName("carousel-right")[0].clientWidth - 80;
+      this.pdfHeight =
+        document.getElementsByClassName("carousel-right")[0].clientHeight - 80;
       this.forceRender;
     },
     handleDocumentRender(index) {

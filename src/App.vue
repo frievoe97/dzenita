@@ -1,8 +1,9 @@
 <template>
   <div>
-    <Navbar class="h-16" />
+    <Mobile v-if="isMobile" class="content" />
+    <Navbar v-if="!isMobile" class="h-16" />
     <!-- <Home class="content" /> -->
-    <ContentHolder class="content" />
+    <ContentHolder v-if="!isMobile" class="content" />
   </div>
 </template>
 
@@ -10,12 +11,31 @@
 import Navbar from "./components/Navbar.vue";
 import Home from "./components/Home.vue";
 import ContentHolder from "./components/ContentHolder.vue";
+import Mobile from "./components/Mobile.vue";
 
 export default {
   components: {
     Navbar,
     Home,
     ContentHolder,
+    Mobile,
+  },
+  data() {
+    return {
+      isMobile: false,
+    };
+  },
+  mounted() {
+    this.checkWindowSize();
+    window.addEventListener("resize", this.checkWindowSize);
+  },
+  methods: {
+    checkWindowSize() {
+      this.isMobile = window.innerWidth <= 768; // Adjust the breakpoint as needed
+    },
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.checkWindowSize);
   },
 };
 </script>
