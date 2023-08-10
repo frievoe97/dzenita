@@ -1,5 +1,7 @@
 <template>
-  <nav class="w-full bg-white shadow-xl flex justify-between items-center px-6">
+  <nav
+    class="w-full shadow-xl flex justify-between items-center px-6 backdrop-blur-sm"
+  >
     <div class="text-xl font-semibold">Dzenita - Architektin Portfolio</div>
     <ul class="flex space-x-6">
       <li>

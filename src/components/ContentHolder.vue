@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex justify-center items-center p-20">
-    <div class="w-full h-full bg-red-600 shadow-2xl">
+    <div class="w-full h-full shadow-2xl backdrop-blur-sm">
       <Home v-if="page == 'project'" />
       <Contact v-else-if="page == 'contact'" />
     </div>
