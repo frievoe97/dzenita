@@ -14,6 +14,7 @@
           <div class="carousel-left">
             <h2 class="text-2xl font-semibold mb-2">{{ project.title }}</h2>
             <p class="text-gray-600">{{ project.description }}</p>
+            <p class="mt-4"><a :href="project.source">Download Portfolio</a></p>
           </div>
           <div class="carousel-right relative">
             <svg
@@ -45,7 +46,10 @@
               class="shadow-2xl"
               :class="{ invisible: !loaded }"
             />
-            <div class="carousel-arrow-btn-container">
+            <div
+              class="carousel-arrow-btn-container"
+              :class="{ invisible: !loaded }"
+            >
               <button @click="prevPage" class="carousel-arrow-btn left-arrow">
                 &#8249;
               </button>
@@ -113,7 +117,7 @@ export default {
           description:
             "Ein innovativer Wohnkomplex, der durch seine futuristische Formensprache und intelligente Raumgestaltung besticht. Die Fassade besteht aus nachhaltigen Photovoltaik-Paneelen, die nicht nur Energie erzeugen, sondern auch eine dynamische Ästhetik schaffen. Jede Wohnung ist durchdacht gestaltet und bietet einzigartige Ausblicke auf die Stadtlandschaft.",
           source:
-            "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2018.pdf",
+            "https://raw.githubusercontent.com/frievoe97/dzenita/main/src/assets/portfolio-2019.pdf",
           pageCount: 1,
         },
         {
@@ -158,13 +162,13 @@ export default {
   },
   methods: {
     prevSlide() {
+      this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
       this.currentSlide =
         (this.currentSlide - 1 + this.projects.length) % this.projects.length;
-      this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
     },
     nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.projects.length;
       this.currentPage = 1; // Zurücksetzen der Seitenzahl auf 1
+      this.currentSlide = (this.currentSlide + 1) % this.projects.length;
     },
     nextPage() {
       if (this.projects[this.currentSlide].pageCount != this.currentPage) {
@@ -174,13 +178,17 @@ export default {
       }
     },
     prevPage() {
-      if (this.currentPage > 1) this.currentPage -= 1;
+      if (this.currentPage > 1) {
+        this.currentPage -= 1;
+      } else {
+        this.currentPage = this.projects[this.currentSlide].pageCount;
+      }
     },
     async eventTest(event) {
       console.log("Re-Render PDF!");
       // this.currentPage -= 1;
-      await this.forceRender();
-      this.currentPage -= 1;
+      // await this.forceRender();
+      // this.currentPage -= 1;
     },
     loading(event) {
       //   console.log((100 / event.total) * event.loaded);
